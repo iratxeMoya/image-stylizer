@@ -1,7 +1,7 @@
 import requests
 
 def test_stylize_image(image_path, style):
-    url = "http://localhost:8000/stylize"
+    url = "http://localhost:8001/stylize"
     files = {"image": open(image_path, "rb")}
     data = {"style": style}
     
