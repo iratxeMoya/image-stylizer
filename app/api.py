@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException, BackgroundTasks
+from fastapi import APIRouter, UploadFile, File, HTTPException, BackgroundTasks, Form
 from fastapi.responses import FileResponse
 from .models import apply_style
 from .schemas import StyleOptions
@@ -14,12 +14,12 @@ PROCESSED_DIR = "processed/"
 @router.post("/style-transfer/")
 async def style_transfer(
     file: UploadFile = File(...), 
-    style: StyleOptions = "anime", 
+    style: str = Form("anime"), 
     background_tasks: BackgroundTasks = BackgroundTasks()
 ):
     # Save uploaded image
-    file_ext = file.filename.split('.')[-1] in ("jpg", "jpeg", "png")
-    if not file_ext:
+    file_ext = file.filename.split('.')[-1]
+    if not file_ext in ("jpg", "jpeg", "png"):
         raise HTTPException(status_code=400, detail="Image format not supported.")
     
     image_id = str(uuid4())

@@ -1,17 +1,11 @@
-FROM pytorch/pytorch:1.7.0-cuda11.0-cudnn8-devel
-
-# Install necessary dependencies
-RUN apt-get update && apt-get install -y \
-    python3-pip \
-    python3-dev \
-    && rm -rf /var/lib/apt/lists/*
+FROM nvcr.io/nvidia/pytorch:23.01-py3
 
 # Copy project files
 COPY . /app
 WORKDIR /app
 
 # Install Python dependencies
-RUN pip3 install -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Expose FastAPI port
 EXPOSE 8000
